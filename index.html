@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Hero - Transform Your Workplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #F7931E;
+            --dark: #0A0E27;
+            --dark-blue: #1a1f3a;
+            --medium: #2d3250;
+            --light: #e8eaf6;
+            --accent: #00D9FF;
+            --success: #4CAF50;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(247, 147, 30, 0.08) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(5deg); }
+            66% { transform: translate(-20px, 20px) rotate(-5deg); }
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 5% 6rem;
+            text-align: center;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        /* About Section */
+        .about-section {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        .about-toggle {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: var(--dark-blue);
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.4;
+        }
+
+        .about-toggle.active {
+            border-radius: 15px 15px 0 0;
+            border-bottom-color: transparent;
+        }
+
+        .about-toggle-text {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            padding: 4px 4px 4px 0;
+            display: inline-block;
+        }
+
+        .about-toggle:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .about-arrow {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            color: var(--accent);
+        }
+
+        .about-toggle.active .about-arrow {
+            transform: rotate(180deg);
+        }
+
+        .about-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            background: var(--dark-blue);
+            border-radius: 0 0 15px 15px;
+            border-left: 2px solid rgba(0, 217, 255, 0.2);
+            border-right: 2px solid rgba(0, 217, 255, 0.2);
+            border-bottom: 2px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .about-content.active {
+            max-height: 800px;
+            padding: 2rem 2rem 2.5rem 2rem;
+        }
+
+        .about-content h3 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .about-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-content strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Assessment Section */
+        .assessment-section {
+            background: var(--dark-blue);
+            border-radius: 30px;
+            padding: 4rem;
+            margin: 4rem auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+        }
+
+        .question-card {
+            background: var(--medium);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .question-label {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .question-number {
+            background: var(--primary);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--dark);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: var(--light);
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        option {
+            background: var(--dark);
+            color: var(--light);
+        }
+
+        /* Solution Display */
+        .solution-container {
+            background: linear-gradient(135deg, var(--dark-blue), var(--medium));
+            border-radius: 30px;
+            padding: 4rem;
+            margin: 4rem auto;
+            border: 2px solid var(--primary);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);
+            display: none;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .solution-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .solution-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .ai-response {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .ai-response h3 {
+            color: var(--accent);
+            margin: 2rem 0 1rem 0;
+            font-size: 1.5rem;
+        }
+
+        .ai-response h4 {
+            color: var(--primary);
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.2rem;
+        }
+
+        .ai-response ul, .ai-response ol {
+            margin-left: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .ai-response li {
+            margin-bottom: 0.8rem;
+        }
+
+        .ai-response code {
+            background: var(--dark);
+            padding: 0.2rem 0.6rem;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-size: 0.9em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            padding: 1rem 2rem;
+            background: var(--medium);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 6rem auto;
+            animation: fadeIn 1s ease-out 0.9s both;
+        }
+
+        /* Real Problems Section */
+        .real-problems-section {
+            margin: 6rem auto 4rem;
+            animation: fadeIn 1s ease-out 1.2s both;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .problem-card {
+            background: var(--medium);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.2);
+            padding: 2rem 2rem 3rem 2rem;
+        }
+
+        .problem-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover .problem-icon {
+            transform: scale(1.1);
+        }
+
+        .problem-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .problem-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .problem-examples {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            margin-top: 0;
+        }
+
+        .problem-card:hover .problem-examples {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+
+        .problem-examples ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .problem-examples li {
+            color: var(--accent);
+            font-size: 0.85rem;
+            padding: 0.3rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .problem-examples li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .feature-card {
+            background: var(--dark-blue);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--dark-blue);
+            border-radius: 30px;
+            padding: 4rem;
+            margin: 6rem auto 4rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-out 1.5s both;
+        }
+
+        /* AI Helper Chat Button */
+        .ai-helper-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: none;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .ai-helper-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
+        }
+
+        /* AI Helper Chat Window */
+        .ai-helper-chat {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 400px;
+            max-width: calc(100vw - 60px);
+            height: 600px;
+            max-height: calc(100vh - 150px);
+            background: var(--dark-blue);
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .ai-helper-chat.active {
+            display: flex;
+        }
+
+        .chat-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 18px 18px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .chat-close:hover {
+            transform: scale(1.2);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chat-message {
+            padding: 1rem 1.2rem;
+            border-radius: 15px;
+            max-width: 85%;
+            line-height: 1.6;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .chat-message.ai {
+            background: var(--medium);
+            color: var(--light);
+            align-self: flex-start;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-message.user {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chat-input-container {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background: var(--medium);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 0.95rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .chat-send {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .chat-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .chat-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .quick-question-btn {
+            padding: 0.8rem;
+            background: var(--medium);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .quick-question-btn:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        /* Implementation Support Section */
+        .support-section {
+            background: var(--medium);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .support-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .support-section p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 6rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        footer .copyright {
+            margin-bottom: 0.5rem;
+        }
+
+        footer .legal-note {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .faq-question {
+            background: var(--medium);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-question:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .faq-question h3 {
+            color: var(--light);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .faq-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 2rem;
+        }
+
+        .faq-answer.active {
+            max-height: 1000px;
+            padding: 1.5rem 2rem;
+        }
+
+        .faq-answer p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .faq-answer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-answer strong {
+            color: var(--accent);
+        }
+
+        .faq-answer ul {
+            margin: 1rem 0 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .assessment-section,
+            .solution-container {
+                padding: 2rem;
+            }
+
+            .hero {
+                padding: 3rem 5%;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .problems-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="logo">AI HERO</div>
+    </header>
+
+    <section class="hero">
+        <h1>Become the AI Champion<br>at Your Company</h1>
+        <p>Stop wasting time on repetitive tasks. Learn how to implement AI solutions that solve YOUR company's actual problems - no coding required.</p>
+        <button class="cta-button" onclick="scrollToAssessment()">Start Your AI Journey →</button>
+    </section>
+
+    <!-- About Section -->
+    <div class="container">
+        <div class="about-section">
+            <button class="about-toggle" onclick="toggleAbout()">
+                <span class="about-toggle-text">About AI HERO</span>
+                <span class="about-arrow">▼</span>
+            </button>
+            <div class="about-content" id="aboutContent">
+                <p>We built this for the millions of employees who know AI could help, but don't know where to start. No corporate jargon. No expensive consultants. Just practical solutions for your actual problems.</p>
+                <p><strong>Who this is for:</strong> Anyone who wants to save time at work but doesn't have a tech background.</p>
+                <p><strong>Why we exist:</strong> Because every employee deserves to become an AI champion - not just the tech-savvy ones.</p>
+                <p><strong>How it works:</strong> Think of us as your personal AI consultant. You tell us about your company and challenges, we create a custom implementation plan with step-by-step instructions. We recommend the best tools for your situation (ChatGPT, Zapier, etc.) and show you exactly how to set them up. If you get stuck, our AI Helper is there to support you every step of the way.</p>
+                <div style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(255, 255, 255, 0.03); border-left: 3px solid rgba(255, 255, 255, 0.2); border-radius: 5px;">
+                    <p style="margin: 0; color: rgba(255, 255, 255, 0.75); line-height: 1.7; font-size: 0.95rem;"><strong style="color: var(--light);">💡 Please note:</strong> AI Hero provides educational guidance only. We recommend testing on a small scale first and getting approval from your manager before making major changes to company systems.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Features -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Your Actual Problems</h3>
+                <p>Not one-size-fits-all advice. Get solutions built for your specific industry, tools, and challenges.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Implementation Ready</h3>
+                <p>Step-by-step guides with exact tools, prompts, and workflows you can use immediately.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Show the Savings</h3>
+                <p>Learn how to pitch solutions to your boss with clear time savings and cost benefits.</p>
+            </div>
+        </div>
+
+        <!-- Real Problems Section -->
+        <div class="real-problems-section">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 1rem;">Real Problems AI Can Solve Today</h2>
+            <p class="section-subtitle" style="text-align: center; max-width: 700px; margin: 0 auto 3rem;">See how companies like yours are already using AI</p>
+            
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">🛒</div>
+                    <h3>Retail</h3>
+                    <p>Inventory tracking, customer service emails</p>
+                    <div class="problem-examples">
+                        <ul>
+                            <li>Auto-respond to customer inquiries</li>
+                            <li>Predict when to reorder stock</li>
+                            <li>Generate product descriptions</li>
+                            <li>Analyze customer feedback trends</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🍽️</div>
+                    <h3>Restaurants</h3>
+                    <p>Staff scheduling, food ordering</p>
+                    <div class="problem-examples">
+                        <ul>
+                            <li>Auto-schedule staff based on demand</li>
+                            <li>Predict food inventory needs</li>
+                            <li>Respond to reservation requests</li>
+                            <li>Analyze menu performance</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🏥</div>
+                    <h3>Healthcare</h3>
+                    <p>Appointment reminders, insurance paperwork</p>
+                    <div class="problem-examples">
+                        <ul>
+                            <li>Send automated appointment reminders</li>
+                            <li>Fill out insurance forms faster</li>
+                            <li>Transcribe patient notes</li>
+                            <li>Schedule follow-up appointments</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🏗️</div>
+                    <h3>Construction</h3>
+                    <p>Project estimates, client follow-ups</p>
+                    <div class="problem-examples">
+                        <ul>
+                            <li>Generate accurate project quotes</li>
+                            <li>Auto-follow up with clients</li>
+                            <li>Track material costs</li>
+                            <li>Schedule subcontractors efficiently</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🏠</div>
+                    <h3>Real Estate</h3>
+                    <p>Lead follow-up, contract prep</p>
+                    <div class="problem-examples">
+                        <ul>
+                            <li>Auto-respond to property inquiries</li>
+                            <li>Schedule property viewings</li>
+                            <li>Generate listing descriptions</li>
+                            <li>Follow up with potential buyers</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📊</div>
+                    <h3>Accounting</h3>
+                    <p>Data entry, invoice processing</p>
+                    <div class="problem-examples">
+                        <ul>
+                            <li>Auto-categorize expenses</li>
+                            <li>Extract data from receipts</li>
+                            <li>Send payment reminders</li>
+                            <li>Generate financial summaries</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🚗</div>
+                    <h3>Smash Repair</h3>
+                    <p>Quote generation, insurance claims</p>
+                    <div class="problem-examples">
+                        <ul>
+                            <li>Create repair estimates from photos</li>
+                            <li>Fill out insurance paperwork</li>
+                            <li>Send job status updates</li>
+                            <li>Schedule customer pickups</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">💇</div>
+                    <h3>Salons/Spas</h3>
+                    <p>Appointment booking, client reminders</p>
+                    <div class="problem-examples">
+                        <ul>
+                            <li>Auto-book and confirm appointments</li>
+                            <li>Send appointment reminders</li>
+                            <li>Track client preferences</li>
+                            <li>Manage product inventory</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🩺</div>
+                    <h3>Nursing Services</h3>
+                    <p>Patient scheduling, documentation</p>
+                    <div class="problem-examples">
+                        <ul>
+                            <li>Schedule patient visits</li>
+                            <li>Transcribe care notes</li>
+                            <li>Send medication reminders</li>
+                            <li>Track patient progress</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Assessment Form -->
+        <div class="assessment-section" id="assessment">
+            <h2 class="section-title">Tell Us About Your Situation</h2>
+            <p class="section-subtitle">Answer a few questions and we'll create a custom AI implementation plan for you</p>
+
+            <form id="assessmentForm">
+                <div class="question-card">
+                    <label class="question-label">
+                        <span class="question-number">1</span>
+                        What industry do you work in?
+                    </label>
+                    <select name="industry" required>
+                        <option value="">Select your industry...</option>
+                        <option value="retail">Retail / E-commerce</option>
+                        <option value="hospitality">Hospitality / Restaurant</option>
+                        <option value="healthcare">Healthcare / Medical</option>
+                        <option value="nursing">Nursing Services</option>
+                        <option value="construction">Construction / Trades</option>
+                        <option value="professional">Professional Services (Legal, Consulting)</option>
+                        <option value="accounting">Accounting / Bookkeeping</option>
+                        <option value="manufacturing">Manufacturing</option>
+                        <option value="realestate">Real Estate</option>
+                        <option value="smashrepair">Smash Repair / Auto Body</option>
+                        <option value="salon">Salons / Spas / Beauty</option>
+                        <option value="education">Education / Training</option>
+                        <option value="logistics">Logistics / Transportation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="question-card">
+                    <label class="question-label">
+                        <span class="question-number">2</span>
+                        What's your biggest time-waster, challenge or pain point right now?
+                    </label>
+                    <textarea name="painPoint" placeholder="E.g., 'We spend 10 hours/week chasing late invoices' or 'Manually entering data from emails into spreadsheets' or 'Scheduling appointments back and forth via email'..." required></textarea>
+                </div>
+
+                <div class="question-card">
+                    <label class="question-label">
+                        <span class="question-number">3</span>
+                        What tools/software does your company currently use?
+                    </label>
+                    <input type="text" name="tools" placeholder="E.g., QuickBooks, Shopify, Gmail, Excel, Salesforce..." required>
+                </div>
+
+                <div class="question-card">
+                    <label class="question-label">
+                        <span class="question-number">4</span>
+                        What's your budget for AI tools?
+                    </label>
+                    <select name="budget" required>
+                        <option value="">Select budget range...</option>
+                        <option value="free">Free tools only (e.g., free ChatGPT, Google Sheets)</option>
+                        <option value="small">Small ($10-50/month) (e.g., ChatGPT Plus, Grammarly)</option>
+                        <option value="medium">Medium ($50-200/month) (e.g., Zapier, Notion AI)</option>
+                        <option value="flexible">Flexible (if I can prove the savings)</option>
+                    </select>
+                </div>
+
+                <div class="question-card">
+                    <label class="question-label">
+                        <span class="question-number">5</span>
+                        How tech-savvy are you?
+                    </label>
+                    <select name="techLevel" required>
+                        <option value="">Select your level...</option>
+                        <option value="beginner">Beginner (I use email and Microsoft Word/Excel basics)</option>
+                        <option value="intermediate">Intermediate (Comfortable with Google Sheets, Zoom, and learning new apps)</option>
+                        <option value="advanced">Advanced (Can figure out Zapier, Airtable, or pick up new software quickly)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="cta-button">Generate My Custom AI Solution →</button>
+            </form>
+        </div>
+
+        <!-- Solution Display -->
+        <div class="solution-container" id="solutionContainer">
+            <div class="solution-header">
+                <div class="solution-icon">🚀</div>
+                <div>
+                    <h2 class="section-title" style="margin: 0;">Your Custom AI Implementation Plan</h2>
+                    <p style="color: rgba(255,255,255,0.7); margin-top: 0.5rem;">Tailored specifically for your situation</p>
+                </div>
+            </div>
+
+            <div id="loadingState" class="loading">
+                <div class="loading-spinner"></div>
+                <p>AI is analyzing your situation and creating a custom solution...</p>
+            </div>
+
+            <div id="solutionContent" class="hidden">
+                <div class="ai-response" id="aiResponse"></div>
+                
+                <div class="support-section">
+                    <h3>🛠️ Need Help Implementing This?</h3>
+                    <p>Click the AI Helper button (💬) in the bottom right corner anytime you need support. Or ask these common questions:</p>
+                    <div class="quick-questions">
+                        <button class="quick-question-btn" onclick="askQuickQuestion('How do I get started with step 1?')">❓ How do I get started with step 1?</button>
+                        <button class="quick-question-btn" onclick="askQuickQuestion('Can you explain this in simpler terms?')">💡 Can you explain this in simpler terms?</button>
+                        <button class="quick-question-btn" onclick="askQuickQuestion('What if I get stuck? What should I do?')">🚧 What if I get stuck? What should I do?</button>
+                        <button class="quick-question-btn" onclick="askQuickQuestion('How do I set up the specific tool you recommended?')">⚙️ How do I set up the specific tool you recommended?</button>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="askFollowUp()">💬 Ask a Follow-up Question</button>
+                    <button class="btn-secondary" onclick="generatePitch()">📊 Generate Boss Pitch (Show How Much You'll Save)</button>
+                    <button class="btn-secondary" onclick="startOver()">🔄 Start Over</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="container">
+        <div class="faq-section">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+            <p class="section-subtitle" style="text-align: center; max-width: 700px; margin: 0 auto 3rem;">Everything you need to know</p>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Why not just use ChatGPT or Claude directly?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Great question! You absolutely can - and many people do. But here's the thing: asking "How do I use AI at my plumbing company?" to ChatGPT is like asking Google "How do I fix my life?" - the answer is too broad to be useful.</p>
+                    <p>This platform does three things ChatGPT alone can't do:</p>
+                    <ul>
+                        <li>Asks the RIGHT questions upfront (your industry, tools, budget, tech level)</li>
+                        <li>Gives you a complete implementation plan, not just ideas</li>
+                        <li>Helps you pitch it to your boss with actual numbers</li>
+                    </ul>
+                    <p>Think of it like: ChatGPT is a brilliant friend who can answer anything. This is that friend <strong>plus</strong> a structured workbook that makes sure you actually achieve your desired goal.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>How is this different from online AI courses?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Most AI courses teach you <em>about</em> AI - what it is, how it works, cool possibilities. That's great if you want to become an AI expert.</p>
+                    <p>But you don't need to be an AI expert. You need to solve YOUR specific problem - whatever's wasting your time right now.</p>
+                    <p>This skips the theory and goes straight to: "Here's what to do Monday morning at YOUR company with YOUR tools and YOUR budget." It's like the difference between taking a cooking class vs. getting a step by step recipe for tonight's dinner, crafted for you.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Do I need to know how to code?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Nope! Not at all.</p>
+                    <p>Most AI implementation today uses no-code tools (things you can set up by clicking buttons, not writing code). If you can use Google Sheets or send an email, you can do this.</p>
+                    <p>The solutions we recommend are based on your tech level - so if you said "beginner," we won't tell you to build a Python script. We'll show you tools with simple interfaces.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Will this actually work for my industry?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Honestly? Some industries are easier than others right now.</p>
+                    <p><strong>AI is GREAT at:</strong> data entry, scheduling, email drafting, invoice tracking, customer service responses, content writing, basic reporting.</p>
+                    <p><strong>AI is still LEARNING:</strong> complex physical tasks, highly regulated decisions (medical diagnoses, legal rulings), anything requiring human judgment on ethical gray areas.</p>
+                    <p>If your pain point involves repetitive digital tasks (emails, spreadsheets, scheduling, data), then yes - very likely to work. If it's "AI should diagnose my patients," then no - not yet (and possibly never without human oversight).</p>
+                    <p><strong>Industries where AI is already helping:</strong></p>
+                    <ul>
+                        <li><strong>Retail:</strong> Inventory tracking, customer service emails</li>
+                        <li><strong>Restaurants:</strong> Staff scheduling, food ordering</li>
+                        <li><strong>Healthcare:</strong> Appointment reminders, insurance paperwork</li>
+                        <li><strong>Construction:</strong> Project estimates, client follow-ups</li>
+                        <li><strong>Real Estate:</strong> Lead follow-up, contract prep</li>
+                        <li><strong>Professional Services:</strong> Time tracking, client communications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>How much will this actually cost me?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Depends on what you choose! Here's the reality:</p>
+                    <ul>
+                        <li><strong>Free option:</strong> Use free ChatGPT + free tools like Google Sheets, Zapier free tier. Cost = $0</li>
+                        <li><strong>Budget option:</strong> ChatGPT Plus ($20/month) + one automation tool ($10-30/month) = $30-50/month</li>
+                        <li><strong>Enterprise-level:</strong> Top-tier AI toolkit = $100-200/month</li>
+                    </ul>
+                    <p>But here's the key: if you're saving 10 hours a week of someone's time, even the $200/month option pays for itself instantly. A $50k/year employee costs roughly $25/hour, so 10 hours saved = $250/week = $1,000/month saved.</p>
+                    <p>That's why the "boss pitch" feature calculates this - to show it's worth it.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>What if my boss says no?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Two approaches:</p>
+                    <p><strong>1. Start small/free</strong> - Use free tools first, prove it works on a small scale, THEN ask for budget. Hard to say no to something that's already saving time.</p>
+                    <p><strong>2. Make it a no-brainer</strong> - The pitch generator shows them the math: "We spend $X, we save $Y." If Y is way bigger than X, it's hard to say no.</p>
+                    <p>Worst case? You still learned something valuable, you can use these skills at your next job, and you become "the person who knows AI" - which is a resume booster right now.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>How long does implementation take?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Real talk:</p>
+                    <ul>
+                        <li><strong>Getting the plan:</strong> 5 minutes (literally, just fill out the form)</li>
+                        <li><strong>Setting up basic automation:</strong> 1-4 hours for simple stuff (depends on your tech level)</li>
+                        <li><strong>Testing and tweaking:</strong> 1-2 weeks to make sure it actually works</li>
+                        <li><strong>Full rollout:</strong> 1-2 months if you're changing how your whole team works</li>
+                    </ul>
+                    <p>But you'll start seeing benefits within days, not months. Even a half-working solution that saves you 2 hours a week is worth it while you refine it.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Can I really do this myself, or do I need to hire someone?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You can absolutely do this yourself - that's the whole point!</p>
+                    <p>But let's be honest about what "yourself" means:</p>
+                    <ul>
+                        <li>You'll need to spend a few hours learning and setting things up</li>
+                        <li>You might hit roadblocks - just use the AI Helper button to get instant support</li>
+                        <li>Some trial and error is normal</li>
+                    </ul>
+                    <p>If you're the type of person who figured out how to use Zoom during COVID, or learned how to use a new app at work without help - you can do this.</p>
+                    <p>If you genuinely hate technology and avoid learning new things - you might want to partner with a more tech-savvy coworker or hire someone. But try it first! You might surprise yourself.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>What if I try this and it doesn't work?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Then you learned something! Seriously.</p>
+                    <p>Not every solution works perfectly the first time. Maybe the AI tool you picked isn't quite right, or your process needs adjusting. That's normal.</p>
+                    <p>The difference between people who succeed with AI and people who don't isn't intelligence - it's persistence. The successful ones try something, see what needs tweaking, adjust, and try again.</p>
+                    <p>Plus, most AI tools have free trials or cheap monthly plans - so if something doesn't work, you're out maybe $20 and a few hours, not thousands of dollars. Don't forget you have the chat tool to assist along the way.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Is this going to replace my job?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>No - it's going to make you BETTER at your job and more valuable.</p>
+                    <p>Think about it: the person who figures out how to save the company 20 hours a week isn't getting fired - they're getting promoted (or at least a reputation as the person who Gets Stuff Done).</p>
+                    <p>AI replaces <em>tasks</em>, not <em>people who solve problems</em>. By learning to implement AI, you become the problem-solver, not the task-doer.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>What if something goes wrong?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p><strong>Start small!</strong> This is the golden rule of implementing anything new at work.</p>
+                    <p>Here's how to stay safe:</p>
+                    <ul>
+                        <li><strong>Test on yourself first</strong> - Don't roll out to your whole team until you've tried it yourself for at least a week</li>
+                        <li><strong>Make backups</strong> - Before changing any existing systems, save copies of what you have now</li>
+                        <li><strong>Get manager approval</strong> - Show them the plan, explain the benefits, get the green light before implementing</li>
+                        <li><strong>Start with one small process</strong> - Don't automate everything at once. Pick one thing, prove it works, then expand</li>
+                        <li><strong>You can always undo it</strong> - Most AI tools are just software you can turn off if they're not working</li>
+                    </ul>
+                    <p>Remember: AI Hero provides guidance and education. You're responsible for testing and implementing safely in your specific environment. When in doubt, start smaller than you think you need to.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div style="background: var(--medium); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem; border: 1px solid rgba(0, 217, 255, 0.2);">
+            <p style="margin: 0 0 0.5rem 0; color: var(--accent); font-weight: 600; font-size: 1rem;">
+                🔒 Your Privacy Matters
+            </p>
+            <p style="margin: 0; color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; line-height: 1.6;">
+                Your information is private and secure. We don't sell or share your data with third parties. Any information you provide is used solely to generate your personalized AI implementation plan.
+            </p>
+        </div>
+        
+        <p class="copyright">© <span id="currentYear"></span> AI Hero. All rights reserved.</p>
+        <p class="legal-note">This website, its design, content, and functionality are protected by copyright law.</p>
+    </footer>
+
+    <!-- AI Helper Chat Button -->
+    <button class="ai-helper-button" onclick="toggleChat()" title="AI Helper - Get instant support">
+        💬
+    </button>
+
+    <!-- AI Helper Chat Window -->
+    <div class="ai-helper-chat" id="aiHelperChat">
+        <div class="chat-header">
+            <h3>🤖 AI Helper</h3>
+            <button class="chat-close" onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message ai">
+                Hi! I'm here to help you implement your AI solution. Ask me anything about the plan we created, or ask a quick question below! 👇
+            </div>
+            <div class="quick-questions" id="quickQuestions">
+                <!-- Quick questions will be populated here -->
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input 
+                type="text" 
+                class="chat-input" 
+                id="chatInput" 
+                placeholder="Ask me anything..."
+                onkeypress="if(event.key === 'Enter') sendChatMessage()"
+            >
+            <button class="chat-send" onclick="sendChatMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Auto-update copyright year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        let conversationHistory = [];
+        let userContext = {};
+
+        function toggleAbout() {
+            const toggle = document.querySelector('.about-toggle');
+            const content = document.getElementById('aboutContent');
+            toggle.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function scrollToAssessment() {
+            document.getElementById('assessment').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.getElementById('assessmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            userContext = {
+                industry: formData.get('industry'),
+                painPoint: formData.get('painPoint'),
+                tools: formData.get('tools'),
+                budget: formData.get('budget'),
+                techLevel: formData.get('techLevel')
+            };
+
+            // Show solution container and loading state
+            document.getElementById('solutionContainer').style.display = 'block';
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('solutionContent').classList.add('hidden');
+            
+            // Scroll to solution
+            document.getElementById('solutionContainer').scrollIntoView({ behavior: 'smooth' });
+
+            // Generate solution
+            await generateSolution();
+        });
+
+        async function generateSolution() {
+            const prompt = `You are an AI implementation consultant helping an employee become an AI hero at their company.
+
+USER'S SITUATION:
+- Industry: ${userContext.industry}
+- Main Problem: ${userContext.painPoint}
+- Current Tools: ${userContext.tools}
+- Budget: ${userContext.budget}
+- Tech Level: ${userContext.techLevel}
+
+Provide a specific, actionable implementation plan with:
+
+1. **Problem Analysis**: Briefly validate their problem and why AI can help
+2. **Recommended Solution**: Specific AI tools/approach (be EXACT - name the tools)
+3. **Step-by-Step Implementation**: 
+   - Clear numbered steps they can follow TODAY
+   - Include specific prompts if using ChatGPT/Claude
+   - Integration steps with their existing tools
+   - IMPORTANT: Always include "Start Small" guidance - test on yourself first, make backups, get manager approval
+4. **Budget Breakdown**: Exact costs (align with their budget constraint)
+5. **Time Savings Estimate**: Be specific (e.g., "Save 8 hours/week")
+6. **Safety First**: Remind them to test on a small scale before full rollout
+7. **How to Pitch This to Your Boss**: 
+   - 2-minute pitch template
+   - Simple calculation showing how much they'll save
+   - Risk mitigation
+
+Be conversational but specific. Use their actual industry language. Make it feel like you understand THEIR exact situation, not a generic response.
+
+Format with clear headings using ### for main sections and #### for subsections.`;
+
+            try {
+                const response = await fetch('/.netlify/functions/generate-solution', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messages: [{ role: 'user', content: prompt }],
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000
+                    })
+                });
+
+                const data = await response.json();
+                const aiText = data.content.find(item => item.type === 'text')?.text || 'Unable to generate solution. Please try again.';
+                
+                // Store in conversation history
+                conversationHistory.push({ role: 'user', content: prompt });
+                conversationHistory.push({ role: 'assistant', content: aiText });
+
+                displaySolution(aiText);
+            } catch (error) {
+                console.error('Error:', error);
+                displaySolution('❌ **Error generating solution.** This happens because the AI API needs to be configured. In a production version, this would work seamlessly!\n\nFor now, here\'s what your solution would include:\n\n### Your Custom Implementation Plan\n\nBased on your situation, I would provide:\n- Specific AI tools for your industry\n- Step-by-step implementation guide\n- Budget breakdown\n- ROI calculations\n- Boss pitch template\n\n*This is a demo - the full version would provide complete, personalized solutions!*');
+            }
+        }
+
+        function displaySolution(text) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('solutionContent').classList.remove('hidden');
+            
+            // Convert markdown-style formatting to HTML
+            let html = text
+                .replace(/### (.*?)$/gm, '<h3>$1</h3>')
+                .replace(/#### (.*?)$/gm, '<h4>$1</h4>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n- /g, '</li><li>')
+                .replace(/^- /gm, '<ul><li>')
+                .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+            
+            document.getElementById('aiResponse').innerHTML = `<p>${html}</p>`;
+        }
+
+        async function askFollowUp() {
+            const question = prompt('What would you like to know more about?');
+            if (!question) return;
+
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('solutionContent').classList.add('hidden');
+
+            const prompt = `Based on our previous conversation about implementing AI at their company, the user has this follow-up question:\n\n"${question}"\n\nProvide a helpful, specific answer that builds on the solution you already provided. Keep it concise and actionable.`;
+
+            try {
+                const response = await fetch('/.netlify/functions/generate-solution', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messages: [...conversationHistory, { role: 'user', content: prompt }],
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000
+                    })
+                });
+
+                const data = await response.json();
+                const aiText = data.content.find(item => item.type === 'text')?.text || 'Unable to generate response.';
+                
+                conversationHistory.push({ role: 'user', content: prompt });
+                conversationHistory.push({ role: 'assistant', content: aiText });
+
+                displaySolution(aiText);
+            } catch (error) {
+                displaySolution('❌ Error generating response. This is a demo limitation.');
+            }
+        }
+
+        async function generatePitch() {
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('solutionContent').classList.add('hidden');
+
+            const prompt = `Based on the AI implementation solution you provided, create a concise "pitch to your boss" script. Include:
+            
+1. **The Hook** (one sentence problem statement)
+2. **The Solution** (what you want to implement)
+3. **The Numbers** (time/money saved)
+4. **The Ask** (what you need from them)
+5. **Risk Mitigation** (why this is low-risk)
+
+Make sure to clearly show how much the company will save in simple terms - compare what they'll spend vs. what they'll save.
+
+Format as a 2-minute speaking script they can practice and use in a meeting.`;
+
+            try {
+                const response = await fetch('/.netlify/functions/generate-solution', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messages: [...conversationHistory, { role: 'user', content: prompt }],
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000
+                    })
+                });
+
+                const data = await response.json();
+                const aiText = data.content.find(item => item.type === 'text')?.text || 'Unable to generate pitch.';
+                
+                displaySolution(aiText);
+            } catch (error) {
+                displaySolution('❌ Error generating pitch. This is a demo limitation.');
+            }
+        }
+
+        function startOver() {
+            conversationHistory = [];
+            userContext = {};
+            document.getElementById('assessmentForm').reset();
+            document.getElementById('solutionContainer').style.display = 'none';
+            document.getElementById('assessment').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const allQuestions = document.querySelectorAll('.faq-question');
+            const allAnswers = document.querySelectorAll('.faq-answer');
+            
+            // Close all other FAQs
+            allQuestions.forEach(q => {
+                if (q !== element) q.classList.remove('active');
+            });
+            allAnswers.forEach(a => {
+                if (a !== answer) a.classList.remove('active');
+            });
+            
+            // Toggle current FAQ
+            element.classList.toggle('active');
+            answer.classList.toggle('active');
+        }
+
+        // AI Helper Chat Functions
+        function toggleChat() {
+            const chat = document.getElementById('aiHelperChat');
+            chat.classList.toggle('active');
+            
+            // Populate quick questions based on whether they have a solution
+            if (userContext.industry && document.getElementById('quickQuestions').children.length === 0) {
+                populateQuickQuestions();
+            }
+        }
+
+        function populateQuickQuestions() {
+            const quickQuestionsDiv = document.getElementById('quickQuestions');
+            const questions = [
+                "How do I get started with step 1?",
+                "Can you break this down into simpler steps?",
+                "What if I don't have access to the recommended tool?",
+                "How do I convince my boss this is worth it?"
+            ];
+            
+            quickQuestionsDiv.innerHTML = questions.map(q => 
+                `<button class="quick-question-btn" onclick="askQuickQuestion('${q}')">${q}</button>`
+            ).join('');
+        }
+
+        function askQuickQuestion(question) {
+            document.getElementById('chatInput').value = question;
+            sendChatMessage();
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to chat
+            addChatMessage(message, 'user');
+            input.value = '';
+            
+            // Add loading indicator
+            const loadingDiv = addChatMessage('Thinking...', 'ai');
+            
+            // Build context for AI
+            let context = 'You are a helpful AI assistant helping someone implement AI solutions at their company.';
+            
+            if (userContext.industry) {
+                context += `\n\nTheir situation:\n- Industry: ${userContext.industry}\n- Problem: ${userContext.painPoint}\n- Tools: ${userContext.tools}\n- Budget: ${userContext.budget}\n- Tech Level: ${userContext.techLevel}`;
+            }
+            
+            if (conversationHistory.length > 0) {
+                context += '\n\nYou previously gave them a detailed implementation plan.';
+            }
+            
+            context += `\n\nTheir question: ${message}\n\nProvide a helpful, specific, and encouraging response. Keep it concise (2-3 paragraphs max). Be practical and actionable.`;
+
+            try {
+                const response = await fetch('/.netlify/functions/generate-solution', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messages: [{ role: 'user', content: context }],
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000
+                    })
+                });
+
+                const data = await response.json();
+                const aiText = data.content.find(item => item.type === 'text')?.text || 'I apologize, but I encountered an error. Please try rephrasing your question.';
+                
+                // Remove loading message
+                loadingDiv.remove();
+                
+                // Add AI response
+                addChatMessage(aiText, 'ai');
+                
+            } catch (error) {
+                loadingDiv.remove();
+                addChatMessage('💡 This is a demo version. In the full version, I\'d provide personalized help based on your specific situation! For now, try breaking your question into smaller steps, or refer back to your implementation plan.', 'ai');
+            }
+        }
+
+        function addChatMessage(text, sender) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            messageDiv.textContent = text;
+            
+            // Remove quick questions if they exist
+            const quickQuestions = document.getElementById('quickQuestions');
+            if (quickQuestions && sender === 'user') {
+                quickQuestions.remove();
+            }
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            return messageDiv;
+        }
+    </script>
+</body>
+</html>
