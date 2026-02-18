@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Hero - Transform Your Workplace</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -64,8 +65,9 @@
         header {
             padding: 2rem 5%;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
+            gap: 0.5rem;
             animation: slideDown 0.8s ease-out;
         }
 
@@ -88,6 +90,15 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -1px;
+        }
+
+        .tagline {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            font-weight: 400;
+            text-align: center;
+            max-width: 600px;
+            line-height: 1.5;
         }
 
         /* Hero Section */
@@ -237,6 +248,92 @@
         .cta-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+        }
+
+        .example-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent);
+            cursor: pointer;
+            margin: 1rem auto 3rem;
+        }
+
+        .example-button:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .example-button-container {
+            text-align: center;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--dark-blue);
+            margin: 5% auto;
+            padding: 3rem;
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .modal h2 {
+            color: var(--accent);
+            margin-bottom: 2rem;
+        }
+
+        .modal h3 {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .modal p, .modal li {
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.8;
+        }
+
+        .modal ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
         }
 
         /* Main Content */
@@ -505,7 +602,7 @@
             overflow: hidden;
         }
 
-        .problem-card:hover {
+        .problem-card.active {
             transform: translateY(-5px) scale(1.05);
             border-color: var(--accent);
             box-shadow: 0 15px 30px rgba(0, 217, 255, 0.2);
@@ -518,7 +615,7 @@
             transition: all 0.3s ease;
         }
 
-        .problem-card:hover .problem-icon {
+        .problem-card.active .problem-icon {
             transform: scale(1.1);
         }
 
@@ -542,7 +639,7 @@
             margin-top: 0;
         }
 
-        .problem-card:hover .problem-examples {
+        .problem-card.active .problem-examples {
             max-height: 200px;
             opacity: 1;
             margin-top: 1rem;
@@ -946,12 +1043,13 @@
 
     <header>
         <div class="logo">AI HERO</div>
+        <div class="tagline">A clarity engine for busy professionals — transforming messy workloads into structured action</div>
     </header>
 
     <section class="hero">
         <h1>Become the AI Champion<br>at Your Company</h1>
         <p>Stop wasting time on repetitive tasks. Learn how to implement AI solutions that solve YOUR company's actual problems - no coding required.</p>
-        <button class="cta-button" onclick="scrollToAssessment()">Start Your AI Journey →</button>
+        <button class="cta-button" onclick="scrollToAssessment()">Turn messy workloads into a prioritised action plan — in minutes →</button>
     </section>
 
     <!-- About Section -->
@@ -967,7 +1065,7 @@
                 <p><strong>Why we exist:</strong> Because every employee deserves to become an AI champion - not just the tech-savvy ones.</p>
                 <p><strong>How it works:</strong> Think of us as your personal AI consultant. You tell us about your company and challenges, we create a custom implementation plan with step-by-step instructions. We recommend the best tools for your situation (ChatGPT, Zapier, etc.) and show you exactly how to set them up. If you get stuck, our AI Helper is there to support you every step of the way.</p>
                 <div style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(255, 255, 255, 0.03); border-left: 3px solid rgba(255, 255, 255, 0.2); border-radius: 5px;">
-                    <p style="margin: 0; color: rgba(255, 255, 255, 0.75); line-height: 1.7; font-size: 0.95rem;"><strong style="color: var(--light);">💡 Please note:</strong> AI Hero provides educational guidance only. We recommend testing on a small scale first and getting approval from your manager before making major changes to company systems.</p>
+                    <p style="margin: 0; color: rgba(255, 255, 255, 0.75); line-height: 1.7; font-size: 0.95rem;"><strong style="color: var(--light);">💡 Please note:</strong> AI Hero provides educational guidance only. We send your inputs to our AI provider to generate your plan. We recommend testing on a small scale first and getting approval from your manager before making major changes to company systems.</p>
                 </div>
             </div>
         </div>
@@ -999,7 +1097,7 @@
             <p class="section-subtitle" style="text-align: center; max-width: 700px; margin: 0 auto 3rem;">See how companies like yours are already using AI</p>
             
             <div class="problems-grid">
-                <div class="problem-card">
+                <div class="problem-card" onclick="toggleProblemCard(this)">
                     <div class="problem-icon">🛒</div>
                     <h3>Retail</h3>
                     <p>Inventory tracking, customer service emails</p>
@@ -1012,7 +1110,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="problem-card">
+                <div class="problem-card" onclick="toggleProblemCard(this)">
                     <div class="problem-icon">🍽️</div>
                     <h3>Restaurants</h3>
                     <p>Staff scheduling, food ordering</p>
@@ -1025,7 +1123,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="problem-card">
+                <div class="problem-card" onclick="toggleProblemCard(this)">
                     <div class="problem-icon">🏥</div>
                     <h3>Healthcare</h3>
                     <p>Appointment reminders, insurance paperwork</p>
@@ -1038,7 +1136,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="problem-card">
+                <div class="problem-card" onclick="toggleProblemCard(this)">
                     <div class="problem-icon">🏗️</div>
                     <h3>Construction</h3>
                     <p>Project estimates, client follow-ups</p>
@@ -1051,7 +1149,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="problem-card">
+                <div class="problem-card" onclick="toggleProblemCard(this)">
                     <div class="problem-icon">🏠</div>
                     <h3>Real Estate</h3>
                     <p>Lead follow-up, contract prep</p>
@@ -1064,7 +1162,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="problem-card">
+                <div class="problem-card" onclick="toggleProblemCard(this)">
                     <div class="problem-icon">📊</div>
                     <h3>Accounting</h3>
                     <p>Data entry, invoice processing</p>
@@ -1077,7 +1175,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="problem-card">
+                <div class="problem-card" onclick="toggleProblemCard(this)">
                     <div class="problem-icon">🚗</div>
                     <h3>Smash Repair</h3>
                     <p>Quote generation, insurance claims</p>
@@ -1090,7 +1188,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="problem-card">
+                <div class="problem-card" onclick="toggleProblemCard(this)">
                     <div class="problem-icon">💇</div>
                     <h3>Salons/Spas</h3>
                     <p>Appointment booking, client reminders</p>
@@ -1103,7 +1201,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="problem-card">
+                <div class="problem-card" onclick="toggleProblemCard(this)">
                     <div class="problem-icon">🩺</div>
                     <h3>Nursing Services</h3>
                     <p>Patient scheduling, documentation</p>
@@ -1124,7 +1222,11 @@
         <!-- Assessment Form -->
         <div class="assessment-section" id="assessment">
             <h2 class="section-title">Tell Us About Your Situation</h2>
-            <p class="section-subtitle">Answer a few questions and we'll create a custom AI implementation plan for you</p>
+            <p class="section-subtitle">Answer a few questions and we can for example, help turn repetitive email and admin work into a semi-automated workflow - Create a week-by-week rollout plan you can actually follow.</p>
+
+            <div class="example-button-container">
+                <button class="example-button" onclick="showExamplePlan()">👁️ See an Example Plan</button>
+            </div>
 
             <form id="assessmentForm">
                 <div class="question-card">
@@ -1154,6 +1256,19 @@
                 <div class="question-card">
                     <label class="question-label">
                         <span class="question-number">2</span>
+                        What's your role?
+                    </label>
+                    <select name="role" required>
+                        <option value="">Select your role...</option>
+                        <option value="owner">Owner / Founder</option>
+                        <option value="manager">Manager / Team Lead</option>
+                        <option value="employee">Employee / Individual Contributor</option>
+                    </select>
+                </div>
+
+                <div class="question-card">
+                    <label class="question-label">
+                        <span class="question-number">3</span>
                         What's your biggest time-waster, challenge or pain point right now?
                     </label>
                     <textarea name="painPoint" placeholder="E.g., 'We spend 10 hours/week chasing late invoices' or 'Manually entering data from emails into spreadsheets' or 'Scheduling appointments back and forth via email'..." required></textarea>
@@ -1161,7 +1276,7 @@
 
                 <div class="question-card">
                     <label class="question-label">
-                        <span class="question-number">3</span>
+                        <span class="question-number">4</span>
                         What tools/software does your company currently use?
                     </label>
                     <input type="text" name="tools" placeholder="E.g., QuickBooks, Shopify, Gmail, Excel, Salesforce..." required>
@@ -1169,7 +1284,7 @@
 
                 <div class="question-card">
                     <label class="question-label">
-                        <span class="question-number">4</span>
+                        <span class="question-number">5</span>
                         What's your budget for AI tools?
                     </label>
                     <select name="budget" required>
@@ -1183,7 +1298,7 @@
 
                 <div class="question-card">
                     <label class="question-label">
-                        <span class="question-number">5</span>
+                        <span class="question-number">6</span>
                         How tech-savvy are you?
                     </label>
                     <select name="techLevel" required>
@@ -1194,7 +1309,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="cta-button">Generate My Custom AI Solution →</button>
+                <button type="submit" class="cta-button">Get My Plan →</button>
             </form>
         </div>
 
@@ -1241,6 +1356,24 @@
         <div class="faq-section">
             <h2 class="section-title" style="text-align: center; margin-bottom: 1rem;">Frequently Asked Questions</h2>
             <p class="section-subtitle" style="text-align: center; max-width: 700px; margin: 0 auto 3rem;">Everything you need to know</p>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>What kinds of tasks can AI HERO help with?</h3>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>AI HERO helps you turn messy tasks into clear, structured action plans. For example:</p>
+                    <ul>
+                        <li>Streamlining recurring admin processes</li>
+                        <li>Structuring reports quickly and professionally</li>
+                        <li>Reducing duplication in workflows</li>
+                        <li>Designing systems to prevent operational chaos</li>
+                        <li>Clarifying implementation steps for new tools</li>
+                        <li>Creating practical execution plans from big ideas</li>
+                    </ul>
+                </div>
+            </div>
 
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
@@ -1424,7 +1557,7 @@
                 🔒 Your Privacy Matters
             </p>
             <p style="margin: 0; color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; line-height: 1.6;">
-                Your information is private and secure. We don't sell or share your data with third parties. Any information you provide is used solely to generate your personalized AI implementation plan.
+                Your information stays private. We do not sell, rent, or share your data with third parties. Anything you submit is used solely to generate your personalised AI implementation plan — and nothing more.
             </p>
         </div>
         
@@ -1477,6 +1610,18 @@
             content.classList.toggle('active');
         }
 
+        function toggleProblemCard(card) {
+            // If this card is already active, close it
+            if (card.classList.contains('active')) {
+                card.classList.remove('active');
+            } else {
+                // Close all other cards
+                document.querySelectorAll('.problem-card').forEach(c => c.classList.remove('active'));
+                // Open this card
+                card.classList.add('active');
+            }
+        }
+
         function scrollToAssessment() {
             document.getElementById('assessment').scrollIntoView({ behavior: 'smooth' });
         }
@@ -1487,6 +1632,7 @@
             const formData = new FormData(e.target);
             userContext = {
                 industry: formData.get('industry'),
+                role: formData.get('role'),
                 painPoint: formData.get('painPoint'),
                 tools: formData.get('tools'),
                 budget: formData.get('budget'),
@@ -1506,35 +1652,45 @@
         });
 
         async function generateSolution() {
-            const prompt = `You are an AI implementation consultant helping an employee become an AI hero at their company.
+            const prompt = `You are an AI implementation consultant helping someone become an AI champion at their company.
 
 USER'S SITUATION:
 - Industry: ${userContext.industry}
+- Role: ${userContext.role}
 - Main Problem: ${userContext.painPoint}
 - Current Tools: ${userContext.tools}
 - Budget: ${userContext.budget}
 - Tech Level: ${userContext.techLevel}
 
-Provide a specific, actionable implementation plan with:
+You MUST respond using EXACTLY this structured format, with these five sections in order:
 
-1. **Problem Analysis**: Briefly validate their problem and why AI can help
-2. **Recommended Solution**: Specific AI tools/approach (be EXACT - name the tools)
-3. **Step-by-Step Implementation**: 
-   - Clear numbered steps they can follow TODAY
-   - Include specific prompts if using ChatGPT/Claude
-   - Integration steps with their existing tools
-   - IMPORTANT: Always include "Start Small" guidance - test on yourself first, make backups, get manager approval
-4. **Budget Breakdown**: Exact costs (align with their budget constraint)
-5. **Time Savings Estimate**: Be specific (e.g., "Save 8 hours/week")
-6. **Safety First**: Remind them to test on a small scale before full rollout
-7. **How to Pitch This to Your Boss**: 
-   - 2-minute pitch template
-   - Simple calculation showing how much they'll save
-   - Risk mitigation
+### 1. Situation Summary
+Briefly restate the user's problem in clear, concise terms. Show you understand their specific situation.
 
-Be conversational but specific. Use their actual industry language. Make it feel like you understand THEIR exact situation, not a generic response.
+### 2. Core Objective
+Define the practical outcome we are trying to achieve. Be specific and measurable where possible.
 
-Format with clear headings using ### for main sections and #### for subsections.`;
+### 3. Step-by-Step Implementation Plan
+Provide clear, numbered steps. Keep them actionable and specific to their tools, budget and tech level.
+- IMPORTANT: Always include a "Start Small" step - test on yourself first, make backups, get manager approval before full rollout
+- Reference their actual tools and budget level
+- Include specific AI tools by name
+
+### 4. Risks / Friction Points
+Identify potential obstacles, inefficiencies, or failure points they should watch out for.
+
+### 5. Efficiency Upgrade
+Suggest one or two ways to improve or optimise the system long-term once the basics are working.
+
+FORMATTING RULES:
+- Use the exact markdown headings shown above
+- Use concise bullet points where appropriate
+- Avoid generic advice - speak directly to their industry and role
+- Focus on practical implementation, not theory
+- Tailor tone and complexity to their tech level
+- If they are an Owner/Founder, focus on ROI, team rollout and business impact
+- If they are a Manager, focus on team adoption, approval processes and reporting
+- If they are an Employee, focus on getting boss approval, starting small and proving value first`;
 
             try {
                 const response = await fetch('/.netlify/functions/generate-solution', {
@@ -1545,7 +1701,7 @@ Format with clear headings using ### for main sections and #### for subsections.
                     body: JSON.stringify({
                         messages: [{ role: 'user', content: prompt }],
                         model: 'claude-sonnet-4-20250514',
-                        max_tokens: 1000
+                        max_tokens: 2000
                     })
                 });
 
@@ -1567,17 +1723,13 @@ Format with clear headings using ### for main sections and #### for subsections.
             document.getElementById('loadingState').style.display = 'none';
             document.getElementById('solutionContent').classList.remove('hidden');
             
-            // Convert markdown-style formatting to HTML
-            let html = text
-                .replace(/### (.*?)$/gm, '<h3>$1</h3>')
-                .replace(/#### (.*?)$/gm, '<h4>$1</h4>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/\n- /g, '</li><li>')
-                .replace(/^- /gm, '<ul><li>')
-                .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+            // Use marked.js for proper markdown rendering
+            marked.setOptions({
+                breaks: true,
+                gfm: true
+            });
             
-            document.getElementById('aiResponse').innerHTML = `<p>${html}</p>`;
+            document.getElementById('aiResponse').innerHTML = marked.parse(text);
         }
 
         async function askFollowUp() {
@@ -1598,7 +1750,7 @@ Format with clear headings using ### for main sections and #### for subsections.
                     body: JSON.stringify({
                         messages: [...conversationHistory, { role: 'user', content: prompt }],
                         model: 'claude-sonnet-4-20250514',
-                        max_tokens: 1000
+                        max_tokens: 2000
                     })
                 });
 
@@ -1639,7 +1791,7 @@ Format as a 2-minute speaking script they can practice and use in a meeting.`;
                     body: JSON.stringify({
                         messages: [...conversationHistory, { role: 'user', content: prompt }],
                         model: 'claude-sonnet-4-20250514',
-                        max_tokens: 1000
+                        max_tokens: 2000
                     })
                 });
 
@@ -1725,7 +1877,7 @@ Format as a 2-minute speaking script they can practice and use in a meeting.`;
             let context = 'You are a helpful AI assistant helping someone implement AI solutions at their company.';
             
             if (userContext.industry) {
-                context += `\n\nTheir situation:\n- Industry: ${userContext.industry}\n- Problem: ${userContext.painPoint}\n- Tools: ${userContext.tools}\n- Budget: ${userContext.budget}\n- Tech Level: ${userContext.techLevel}`;
+                context += `\n\nTheir situation:\n- Industry: ${userContext.industry}\n- Role: ${userContext.role}\n- Problem: ${userContext.painPoint}\n- Tools: ${userContext.tools}\n- Budget: ${userContext.budget}\n- Tech Level: ${userContext.techLevel}`;
             }
             
             if (conversationHistory.length > 0) {
@@ -1743,7 +1895,7 @@ Format as a 2-minute speaking script they can practice and use in a meeting.`;
                     body: JSON.stringify({
                         messages: [{ role: 'user', content: context }],
                         model: 'claude-sonnet-4-20250514',
-                        max_tokens: 1000
+                        max_tokens: 2000
                     })
                 });
 
@@ -1780,5 +1932,64 @@ Format as a 2-minute speaking script they can practice and use in a meeting.`;
             return messageDiv;
         }
     </script>
+    <!-- Example Plan Modal -->
+    <div id="exampleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeExamplePlan()">&times;</span>
+            <h2>Example Implementation Plan</h2>
+            <p style="color: rgba(255, 255, 255, 0.6); font-style: italic; margin-bottom: 2rem;">This is what an actual AI HERO plan looks like — tailored to a restaurant manager dealing with staff scheduling chaos.</p>
+
+            <h3>1. Situation Summary</h3>
+            <p>You're spending 8+ hours weekly manually creating staff schedules, juggling availability changes via text messages, and constantly dealing with last-minute shift swaps. This creates stress, scheduling conflicts, and pulls you away from actually running the restaurant.</p>
+
+            <h3>2. Core Objective</h3>
+            <p>Reduce scheduling time from 8 hours to under 1 hour per week while eliminating scheduling conflicts and improving staff satisfaction through a semi-automated, AI-assisted system.</p>
+
+            <h3>3. Step-by-Step Implementation Plan</h3>
+            <ul>
+                <li><strong>Week 1: Start Small —</strong> Use ChatGPT (free) to create your first schedule template. Prompt: "Create a 2-week restaurant staff schedule for [number] employees with these roles and availability constraints..."</li>
+                <li><strong>Week 2: Test the System —</strong> Run the AI-generated schedule for one week alongside your normal process. Note any issues or adjustments needed.</li>
+                <li><strong>Week 3: Add Automation —</strong> Set up a free Zapier workflow to collect availability changes via Google Forms instead of text messages.</li>
+                <li><strong>Week 4: Refine and Roll Out —</strong> Integrate staff feedback, finalize your process, train your team leads on the new system.</li>
+                <li><strong>Get Manager Approval First —</strong> Before full rollout, show your manager the time savings (7 hours/week = ~$200/week saved) and get sign-off.</li>
+            </ul>
+
+            <h3>4. Risks / Friction Points</h3>
+            <ul>
+                <li>Staff might resist changing how they submit availability — address this by showing them how it's faster for them too</li>
+                <li>AI might not account for complex preference patterns initially — manually review first 2-3 schedules</li>
+                <li>System could break if Google Forms or Zapier has downtime — keep your old process as backup for first month</li>
+            </ul>
+
+            <h3>5. Efficiency Upgrade</h3>
+            <ul>
+                <li><strong>Short-term:</strong> Once stable, add automatic shift-swap requests through a shared Slack channel or WhatsApp group</li>
+                <li><strong>Long-term:</strong> Upgrade to a purpose-built tool like 7shifts or When I Work ($3-5/employee/month) for advanced features like labor cost optimization and mobile clock-in</li>
+            </ul>
+
+            <div style="margin-top: 3rem; padding: 1.5rem; background: rgba(0, 217, 255, 0.1); border-left: 3px solid var(--accent); border-radius: 5px;">
+                <p style="margin: 0; font-weight: 600; color: var(--accent);">💡 Your plan will be customized to YOUR specific situation, role, industry, tools, budget, and tech level.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showExamplePlan() {
+            document.getElementById('exampleModal').style.display = 'block';
+        }
+
+        function closeExamplePlan() {
+            document.getElementById('exampleModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('exampleModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+
 </body>
 </html>
